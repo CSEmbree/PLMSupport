@@ -1,0 +1,24 @@
+//EXAMPLE CODE SNIPPET
+//PURPOSE: Get the custom column name attached to the "Advance Edit" section of an enum in Type Manager of PLM 10.1 M050.
+
+///... given some MaterialSupplier link...
+LCSMaterialSupplier supplierLink = (LCSMaterialSupplier) request.getAttribute("contextMaterialSupplier");
+
+boolean hasCustomBackground = false;
+String backgroundHtml = null;
+try {
+	if (supplierLink != null) {
+		String compositeRMValue = (String) supplierLink.getValue("colorType");
+
+		FlexType flexType = FlexTypeCache.getFlexTypeFromPath("Material");
+		
+		FlexType flexType = FlexTypeCache.getFlexTypeFromPath("Material"); // get FlexType that has the Enum under it
+		FlexTypeAttribute flexTypeAttribute = flexType.getAttribute("ColorType"); // get the Attribute that is the enum
+		Map mapOfAttributeEnumCustomFields = flexTypeAttribute.getAttValueList().getList(); // get contents of that ennum (or get localized list value if you need language support)
+		backgroundHtml = (String) valuesForAttributeValueColorType.get("backgroundHTML"); // get custom field attached to that enum's values 
+
+		hasCustomBackground = ((backgroundHtml != null && !backgroundHtml.equals(""))? true : false);
+	}
+} catch (Exception e) {
+	e.printStackTrace();
+}
